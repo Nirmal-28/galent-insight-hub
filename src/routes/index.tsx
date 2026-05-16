@@ -585,7 +585,7 @@ function Matrix06Section() {
                   </ul>
                 </div>
               ))}
-            </>
+            </FragmentRow>
           ))}
         </div>
       </div>
