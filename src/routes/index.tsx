@@ -712,8 +712,8 @@ function GalentPage() {
 
         <footer className="border-t border-border mt-10">
           <div
-            className="mx-auto px-5 sm:px-8 py-6 flex flex-col sm:flex-row gap-2 text-[12px] text-muted-foreground"
-            style={{ maxWidth: 1200, paddingLeft: collapsed ? undefined : 260 }}
+            className="mx-auto px-5 sm:px-10 py-6 flex flex-col sm:flex-row gap-2 text-[12px] text-muted-foreground"
+            style={{ maxWidth: 960 }}
           >
             <div className="flex-1">
               Sourced from Gartner, McKinsey, Bain, IDC, Forrester, Deloitte, Anthropic, BCG, MIT NANDA, HFS Research, GitHub, AltePartners, MITI.
