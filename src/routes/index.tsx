@@ -688,16 +688,10 @@ function GalentPage() {
 
       <main
         className="pt-14 transition-[padding] duration-300"
-        style={{ paddingLeft: collapsed ? 0 : undefined }}
+        style={{ paddingLeft: collapsed ? 0 : 240 }}
       >
-        <div
-          className="mx-auto px-5 sm:px-8 py-12"
-          style={{ maxWidth: 900, marginLeft: collapsed ? "auto" : undefined }}
-        >
-          <div className={collapsed ? "" : "md:pl-[60px]"}>
-            {/* offset for sidebar handled by margin on main */}
-          </div>
-          <div className="space-y-16" style={{ marginLeft: collapsed ? 0 : 0 }}>
+        <div className="mx-auto px-5 sm:px-10 py-12" style={{ maxWidth: 960 }}>
+          <div className="space-y-16">
             <OverviewSection />
             <hr className="border-border" />
             <Matrix01Section />
