@@ -569,8 +569,8 @@ function Matrix06Section() {
             </div>
           ))}
           {matrix06.rows.map((r) => (
-            <>
-              <div key={r.name + "h"} className="p-3 border-t border-border">
+            <FragmentRow key={r.name}>
+              <div className="p-3 border-t border-border">
                 <div className="font-semibold text-[14px]">{r.name}</div>
                 <div className="text-[11.5px] text-muted-foreground leading-snug mt-1">{r.sub}</div>
               </div>
