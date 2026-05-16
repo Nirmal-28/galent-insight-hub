@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { useEffect, useMemo, useRef, useState } from "react";
+import { Fragment as FragmentRow, useEffect, useMemo, useState } from "react";
 import logo from "@/assets/galent-logo.png";
 import {
   sections, overviewTabs, matrix01,
