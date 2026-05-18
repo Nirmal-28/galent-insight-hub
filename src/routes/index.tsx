@@ -679,7 +679,7 @@ function GalentPage() {
       <div className="fixed top-0 left-0 right-0 h-[3px] z-50 bg-transparent">
         <div className="h-full bg-primary transition-[width] duration-100" style={{ width: `${progress}%` }} />
       </div>
-      <Navbar dark={dark} setDark={setDark} />
+      <Navbar dark={dark} setDark={setDark} userEmail={null} />
       <Sidebar collapsed={collapsed} setCollapsed={setCollapsed} active={active} />
       {collapsed && <CollapsedTab onExpand={() => setCollapsed(false)} />}
 
