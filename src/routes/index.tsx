@@ -89,7 +89,7 @@ const overviewIcon = (k: string) =>
   k === "target" ? <Icon.Target /> : k === "users" ? <Icon.Users /> : <Icon.Grid />;
 
 /* ------------ Top Navbar ------------ */
-function Navbar({ dark, setDark }: { dark: boolean; setDark: (v: boolean) => void }) {
+function Navbar({ dark, setDark, userEmail }: { dark: boolean; setDark: (v: boolean) => void; userEmail?: string | null }) {
   return (
     <header className="glass-nav fixed top-0 inset-x-0 z-40 h-14 flex items-center px-4 sm:px-6">
       <div className="flex items-center gap-2">
