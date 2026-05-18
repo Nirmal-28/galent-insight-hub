@@ -96,9 +96,11 @@ function Navbar({ dark, setDark, userEmail }: { dark: boolean; setDark: (v: bool
         <img src={logo} alt="Galent" className="h-7 w-auto" />
       </div>
       <div className="ml-auto flex items-center gap-3 text-sm">
-        <span className="hidden md:inline text-muted-foreground text-xs">
-          Reading as <span className="font-medium text-foreground/80">{userEmail ?? "guest"}</span>
-        </span>
+        {userEmail ? (
+          <span className="hidden md:inline text-muted-foreground text-xs">
+            Reading as <span className="font-medium text-foreground/80">{userEmail}</span>
+          </span>
+        ) : null}
         <button
           onClick={() => setDark(!dark)}
           className="p-2 rounded-md hover:bg-muted transition-colors"
