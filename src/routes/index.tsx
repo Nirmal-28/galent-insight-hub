@@ -97,7 +97,7 @@ function Navbar({ dark, setDark }: { dark: boolean; setDark: (v: boolean) => voi
       </div>
       <div className="ml-auto flex items-center gap-3 text-sm">
         <span className="hidden md:inline text-muted-foreground text-xs">
-          Reading as <span className="font-medium text-foreground/80">nirmal.r@galent.com</span>
+          Reading as <span className="font-medium text-foreground/80">{userEmail ?? "guest"}</span>
         </span>
         <button
           onClick={() => setDark(!dark)}
@@ -105,9 +105,6 @@ function Navbar({ dark, setDark }: { dark: boolean; setDark: (v: boolean) => voi
           aria-label="Toggle theme"
         >
           {dark ? <Icon.Sun /> : <Icon.Moon />}
-        </button>
-        <button className="text-xs font-medium text-muted-foreground hover:text-foreground transition-colors px-2">
-          Sign out
         </button>
       </div>
     </header>
