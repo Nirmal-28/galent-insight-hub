@@ -89,7 +89,7 @@ const overviewIcon = (k: string) =>
   k === "target" ? <Icon.Target /> : k === "users" ? <Icon.Users /> : <Icon.Grid />;
 
 /* ------------ Top Navbar ------------ */
-function Navbar({ dark, setDark }: { dark: boolean; setDark: (v: boolean) => void }) {
+function Navbar({ dark, setDark, userEmail }: { dark: boolean; setDark: (v: boolean) => void; userEmail?: string | null }) {
   return (
     <header className="glass-nav fixed top-0 inset-x-0 z-40 h-14 flex items-center px-4 sm:px-6">
       <div className="flex items-center gap-2">
@@ -97,7 +97,7 @@ function Navbar({ dark, setDark }: { dark: boolean; setDark: (v: boolean) => voi
       </div>
       <div className="ml-auto flex items-center gap-3 text-sm">
         <span className="hidden md:inline text-muted-foreground text-xs">
-          Reading as <span className="font-medium text-foreground/80">nirmal.r@galent.com</span>
+          Reading as <span className="font-medium text-foreground/80">{userEmail ?? "guest"}</span>
         </span>
         <button
           onClick={() => setDark(!dark)}
@@ -105,9 +105,6 @@ function Navbar({ dark, setDark }: { dark: boolean; setDark: (v: boolean) => voi
           aria-label="Toggle theme"
         >
           {dark ? <Icon.Sun /> : <Icon.Moon />}
-        </button>
-        <button className="text-xs font-medium text-muted-foreground hover:text-foreground transition-colors px-2">
-          Sign out
         </button>
       </div>
     </header>
@@ -682,7 +679,7 @@ function GalentPage() {
       <div className="fixed top-0 left-0 right-0 h-[3px] z-50 bg-transparent">
         <div className="h-full bg-primary transition-[width] duration-100" style={{ width: `${progress}%` }} />
       </div>
-      <Navbar dark={dark} setDark={setDark} />
+      <Navbar dark={dark} setDark={setDark} userEmail={null} />
       <Sidebar collapsed={collapsed} setCollapsed={setCollapsed} active={active} />
       {collapsed && <CollapsedTab onExpand={() => setCollapsed(false)} />}
 
