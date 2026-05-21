@@ -65,6 +65,64 @@ function useScrollProgress() {
   return p;
 }
 
+function useParallax() {
+  const [y, setY] = useState(0);
+  useEffect(() => {
+    const onScroll = () => setY(window.scrollY);
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+  return y;
+}
+
+function useReveal() {
+  useEffect(() => {
+    const els = document.querySelectorAll<HTMLElement>(".reveal");
+    const obs = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((e) => {
+          if (e.isIntersecting) {
+            e.target.classList.add("in");
+            obs.unobserve(e.target);
+          }
+        });
+      },
+      { rootMargin: "0px 0px -10% 0px", threshold: 0.12 },
+    );
+    els.forEach((el) => obs.observe(el));
+    return () => obs.disconnect();
+  }, []);
+}
+
+function ParallaxBackdrop({ y }: { y: number }) {
+  return (
+    <div aria-hidden className="fixed inset-0 -z-10 overflow-hidden pointer-events-none">
+      <div
+        className="blob blob-green"
+        style={{
+          width: 520, height: 520, top: -120, left: -140,
+          transform: `translate3d(0, ${y * 0.12}px, 0)`,
+        }}
+      />
+      <div
+        className="blob blob-indigo"
+        style={{
+          width: 620, height: 620, top: 200, right: -180,
+          transform: `translate3d(0, ${y * -0.08}px, 0)`,
+        }}
+      />
+      <div
+        className="blob blob-orange"
+        style={{
+          width: 420, height: 420, top: "60%", left: "30%",
+          transform: `translate3d(0, ${y * 0.16}px, 0)`,
+        }}
+      />
+    </div>
+  );
+}
+
 /* ------------ Icons ------------ */
 const Icon = {
   Chevron: ({ open = false, className = "" }: { open?: boolean; className?: string }) => (
