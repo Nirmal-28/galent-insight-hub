@@ -256,8 +256,9 @@ function OverviewSection() {
   return (
     <section id="overview" className="scroll-mt-24 pt-4">
       <div className="mb-4"><Icon.Dots /></div>
-      <h1 className="text-[32px] sm:text-[38px] font-bold tracking-tight leading-tight text-foreground">
-        Why I Wrote This — An Overview
+      <div className="section-eyebrow mb-3">Field Guide · 2026</div>
+      <h1 className="text-[34px] sm:text-[42px] font-bold tracking-tight leading-[1.1]">
+        Why I Wrote This — <span className="brand-gradient-text">An Overview</span>
       </h1>
       <div className="mt-6 space-y-5 text-[15.5px] leading-[1.75] text-foreground/85">
         <p>Most conversations about AI in enterprise IT happen in silos. Executives want quick wins. Engineers evaluate tools. Each perspective is valid in isolation, but none is sufficient on its own. What's missing is a single view that connects them.</p>
