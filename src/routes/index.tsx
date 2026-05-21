@@ -769,8 +769,16 @@ function GalentPage() {
           <div className="space-y-16">
             {sectionEls.map((el, i) => (
               <FragmentRow key={i}>
-                {i > 0 && <div className="accent-divider reveal" />}
-                <div className="reveal" style={{ transitionDelay: `${Math.min(i * 40, 200)}ms` }}>
+                {i > 0 && (
+                  <div
+                    className="accent-divider reveal"
+                    style={{ transitionDelay: `${i * 120}ms` }}
+                  />
+                )}
+                <div
+                  className="reveal reveal-stagger"
+                  style={{ transitionDelay: `${i * 120 + 80}ms` }}
+                >
                   {el}
                 </div>
               </FragmentRow>
