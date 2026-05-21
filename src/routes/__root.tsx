@@ -72,14 +72,18 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "Lovable App" },
-      { name: "description", content: "Lovable Generated Project" },
+      { title: "galent matrix" },
+      { name: "description", content: "Galent Insight Hub is a premium web application for exploring enterprise AI strategy." },
       { name: "author", content: "Lovable" },
-      { property: "og:title", content: "Lovable App" },
-      { property: "og:description", content: "Lovable Generated Project" },
+      { property: "og:title", content: "galent matrix" },
+      { property: "og:description", content: "Galent Insight Hub is a premium web application for exploring enterprise AI strategy." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary" },
       { name: "twitter:site", content: "@Lovable" },
+      { name: "twitter:title", content: "galent matrix" },
+      { name: "twitter:description", content: "Galent Insight Hub is a premium web application for exploring enterprise AI strategy." },
+      { property: "og:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/61912a50-8901-4833-9259-9fa8dfc220f1/id-preview-94307d79--5679e3dd-23bb-4a66-a2d6-47871b9cfa10.lovable.app-1779344872746.png" },
+      { name: "twitter:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/61912a50-8901-4833-9259-9fa8dfc220f1/id-preview-94307d79--5679e3dd-23bb-4a66-a2d6-47871b9cfa10.lovable.app-1779344872746.png" },
     ],
     links: [
       {
