@@ -65,6 +65,64 @@ function useScrollProgress() {
   return p;
 }
 
+function useParallax() {
+  const [y, setY] = useState(0);
+  useEffect(() => {
+    const onScroll = () => setY(window.scrollY);
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+  return y;
+}
+
+function useReveal() {
+  useEffect(() => {
+    const els = document.querySelectorAll<HTMLElement>(".reveal");
+    const obs = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((e) => {
+          if (e.isIntersecting) {
+            e.target.classList.add("in");
+            obs.unobserve(e.target);
+          }
+        });
+      },
+      { rootMargin: "0px 0px -10% 0px", threshold: 0.12 },
+    );
+    els.forEach((el) => obs.observe(el));
+    return () => obs.disconnect();
+  }, []);
+}
+
+function ParallaxBackdrop({ y }: { y: number }) {
+  return (
+    <div aria-hidden className="fixed inset-0 -z-10 overflow-hidden pointer-events-none">
+      <div
+        className="blob blob-green"
+        style={{
+          width: 520, height: 520, top: -120, left: -140,
+          transform: `translate3d(0, ${y * 0.12}px, 0)`,
+        }}
+      />
+      <div
+        className="blob blob-indigo"
+        style={{
+          width: 620, height: 620, top: 200, right: -180,
+          transform: `translate3d(0, ${y * -0.08}px, 0)`,
+        }}
+      />
+      <div
+        className="blob blob-orange"
+        style={{
+          width: 420, height: 420, top: "60%", left: "30%",
+          transform: `translate3d(0, ${y * 0.16}px, 0)`,
+        }}
+      />
+    </div>
+  );
+}
+
 /* ------------ Icons ------------ */
 const Icon = {
   Chevron: ({ open = false, className = "" }: { open?: boolean; className?: string }) => (
@@ -198,8 +256,9 @@ function OverviewSection() {
   return (
     <section id="overview" className="scroll-mt-24 pt-4">
       <div className="mb-4"><Icon.Dots /></div>
-      <h1 className="text-[32px] sm:text-[38px] font-bold tracking-tight leading-tight text-foreground">
-        Why I Wrote This — An Overview
+      <div className="section-eyebrow mb-3">Field Guide · 2026</div>
+      <h1 className="text-[34px] sm:text-[42px] font-bold tracking-tight leading-[1.1]">
+        Why I Wrote This — <span className="brand-gradient-text">An Overview</span>
       </h1>
       <div className="mt-6 space-y-5 text-[15.5px] leading-[1.75] text-foreground/85">
         <p>Most conversations about AI in enterprise IT happen in silos. Executives want quick wins. Engineers evaluate tools. Each perspective is valid in isolation, but none is sufficient on its own. What's missing is a single view that connects them.</p>
@@ -660,6 +719,8 @@ function GalentPage() {
   const ids = useMemo(() => sections.map((s) => s.id), []);
   const active = useScrollSpy(ids);
   const progress = useScrollProgress();
+  const scrollY = useParallax();
+  useReveal();
 
   useEffect(() => {
     const stored = typeof window !== "undefined" ? localStorage.getItem("galent-dark") : null;
@@ -676,10 +737,25 @@ function GalentPage() {
     return () => window.removeEventListener("scroll", f);
   }, []);
 
+  const sectionEls = [
+    <OverviewSection key="o" />,
+    <Matrix01Section key="1" />,
+    <Matrix02Section key="2" />,
+    <Matrix03Section key="3" />,
+    <Matrix04Section key="4" />,
+    <Matrix05Section key="5" />,
+    <Matrix06Section key="6" />,
+    <Matrix07Section key="7" />,
+  ];
+
   return (
-    <div className="min-h-screen bg-background text-foreground">
+    <div className="min-h-screen bg-background text-foreground relative">
+      <ParallaxBackdrop y={scrollY} />
       <div className="fixed top-0 left-0 right-0 h-[3px] z-50 bg-transparent">
-        <div className="h-full bg-primary transition-[width] duration-100" style={{ width: `${progress}%` }} />
+        <div
+          className="h-full brand-progress transition-[width] duration-100"
+          style={{ width: `${progress}%` }}
+        />
       </div>
       <Navbar dark={dark} setDark={setDark} userEmail={null} />
       <Sidebar collapsed={collapsed} setCollapsed={setCollapsed} active={active} />
@@ -691,23 +767,17 @@ function GalentPage() {
       >
         <div className="mx-auto px-5 sm:px-10 py-12" style={{ maxWidth: 960 }}>
           <div className="space-y-16">
-            <OverviewSection />
-            <hr className="border-border" />
-            <Matrix01Section />
-            <hr className="border-border" />
-            <Matrix02Section />
-            <hr className="border-border" />
-            <Matrix03Section />
-            <hr className="border-border" />
-            <Matrix04Section />
-            <hr className="border-border" />
-            <Matrix05Section />
-            <hr className="border-border" />
-            <Matrix06Section />
-            <hr className="border-border" />
-            <Matrix07Section />
+            {sectionEls.map((el, i) => (
+              <FragmentRow key={i}>
+                {i > 0 && <div className="accent-divider reveal" />}
+                <div className="reveal" style={{ transitionDelay: `${Math.min(i * 40, 200)}ms` }}>
+                  {el}
+                </div>
+              </FragmentRow>
+            ))}
           </div>
         </div>
+
 
         <footer className="border-t border-border mt-10">
           <div
@@ -725,7 +795,7 @@ function GalentPage() {
       {showTop && (
         <button
           onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
-          className="fixed bottom-6 right-6 z-40 w-11 h-11 rounded-full bg-primary text-primary-foreground shadow-lg flex items-center justify-center hover:scale-105 transition-transform"
+          className="fixed bottom-6 right-6 z-40 w-12 h-12 rounded-full fab-gradient text-white flex items-center justify-center hover:scale-110 active:scale-95 transition-transform animate-fade-in"
           aria-label="Back to top"
         >
           <Icon.ArrowUp />

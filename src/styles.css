@@ -90,9 +90,13 @@
     border: 1px solid var(--border);
     border-radius: 12px;
     box-shadow: var(--shadow-card);
-    transition: all 0.2s ease;
+    transition: transform .3s cubic-bezier(.2,.7,.2,1), box-shadow .3s, border-color .3s;
   }
-  .card-base:hover { transform: translateY(-1px); box-shadow: var(--shadow-lift); }
+  .card-base:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 12px 32px -16px color-mix(in oklab, var(--primary) 35%, transparent), var(--shadow-lift);
+    border-color: color-mix(in oklab, var(--primary) 25%, var(--border));
+  }
   .pill {
     display: inline-flex; align-items: center;
     padding: 3px 10px; border-radius: 9999px;
@@ -100,14 +104,104 @@
     letter-spacing: 0.04em; text-transform: uppercase;
   }
   .glass-nav {
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-    background: rgba(255, 255, 255, 0.85);
-    border-bottom: 1px solid var(--border);
+    backdrop-filter: blur(14px) saturate(140%);
+    -webkit-backdrop-filter: blur(14px) saturate(140%);
+    background: rgba(255, 255, 255, 0.72);
+    border-bottom: 1px solid color-mix(in oklab, var(--border) 70%, transparent);
   }
-  .dark .glass-nav { background: rgba(15, 23, 42, 0.8); }
+  .dark .glass-nav { background: rgba(15, 23, 42, 0.72); }
   .sidebar-active-bar {
     background: linear-gradient(90deg, var(--sidebar-active), transparent);
     box-shadow: inset 3px 0 0 var(--primary);
   }
+
+  /* ===== Premium gradient + animation system ===== */
+  .brand-gradient-text {
+    background: linear-gradient(100deg, #3ecf8e 0%, #6c47ff 55%, #f97316 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    background-size: 200% 100%;
+    animation: brand-shimmer 8s ease-in-out infinite;
+  }
+  @keyframes brand-shimmer {
+    0%,100% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+  }
+
+  .brand-progress {
+    background: linear-gradient(90deg, #3ecf8e, #6c47ff 50%, #f97316);
+    box-shadow: 0 0 12px color-mix(in oklab, #6c47ff 50%, transparent);
+  }
+
+  .accent-divider {
+    height: 1px;
+    background: linear-gradient(90deg, transparent, color-mix(in oklab, var(--primary) 40%, transparent) 30%, color-mix(in oklab, #3ecf8e 40%, transparent) 70%, transparent);
+  }
+
+  /* Parallax blobs */
+  .blob {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(80px);
+    opacity: 0.32;
+    pointer-events: none;
+    will-change: transform;
+  }
+  .dark .blob { opacity: 0.22; }
+  .blob-green  { background: #3ecf8e; }
+  .blob-indigo { background: #6c47ff; }
+  .blob-orange { background: #f97316; }
+
+  /* Scroll reveal */
+  .reveal {
+    opacity: 0;
+    transform: translateY(24px);
+    transition: opacity .9s cubic-bezier(.2,.7,.2,1), transform .9s cubic-bezier(.2,.7,.2,1);
+    will-change: opacity, transform;
+  }
+  .reveal.in {
+    opacity: 1;
+    transform: none;
+  }
+
+  /* Section header accent */
+  .section-eyebrow {
+    display: inline-flex; align-items: center; gap: 8px;
+    font-size: 11px; font-weight: 700; letter-spacing: .14em; text-transform: uppercase;
+    color: var(--muted-foreground);
+  }
+  .section-eyebrow::before {
+    content: "";
+    width: 28px; height: 2px; border-radius: 2px;
+    background: linear-gradient(90deg, #3ecf8e, #6c47ff, #f97316);
+  }
+
+  /* Subtle card glow on hover for matrix tiles */
+  .glow-hover { position: relative; }
+  .glow-hover::after {
+    content: "";
+    position: absolute; inset: -1px;
+    border-radius: inherit; pointer-events: none;
+    background: linear-gradient(135deg, rgba(62,207,142,.35), rgba(108,71,255,.35), rgba(249,115,22,.35));
+    opacity: 0; transition: opacity .35s ease;
+    -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+            mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+    -webkit-mask-composite: xor; mask-composite: exclude;
+    padding: 1px;
+  }
+  .glow-hover:hover::after { opacity: 1; }
+
+  /* Floating action button */
+  .fab-gradient {
+    background: linear-gradient(135deg, #6c47ff, #3ecf8e);
+    box-shadow: 0 12px 32px -8px rgba(108,71,255,.55);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .reveal { opacity: 1; transform: none; transition: none; }
+    .brand-gradient-text { animation: none; }
+    .blob { display: none; }
+  }
 }
+
