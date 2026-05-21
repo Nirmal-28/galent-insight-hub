@@ -718,6 +718,8 @@ function GalentPage() {
   const ids = useMemo(() => sections.map((s) => s.id), []);
   const active = useScrollSpy(ids);
   const progress = useScrollProgress();
+  const scrollY = useParallax();
+  useReveal();
 
   useEffect(() => {
     const stored = typeof window !== "undefined" ? localStorage.getItem("galent-dark") : null;
@@ -734,10 +736,25 @@ function GalentPage() {
     return () => window.removeEventListener("scroll", f);
   }, []);
 
+  const sectionEls = [
+    <OverviewSection key="o" />,
+    <Matrix01Section key="1" />,
+    <Matrix02Section key="2" />,
+    <Matrix03Section key="3" />,
+    <Matrix04Section key="4" />,
+    <Matrix05Section key="5" />,
+    <Matrix06Section key="6" />,
+    <Matrix07Section key="7" />,
+  ];
+
   return (
-    <div className="min-h-screen bg-background text-foreground">
+    <div className="min-h-screen bg-background text-foreground relative">
+      <ParallaxBackdrop y={scrollY} />
       <div className="fixed top-0 left-0 right-0 h-[3px] z-50 bg-transparent">
-        <div className="h-full bg-primary transition-[width] duration-100" style={{ width: `${progress}%` }} />
+        <div
+          className="h-full brand-progress transition-[width] duration-100"
+          style={{ width: `${progress}%` }}
+        />
       </div>
       <Navbar dark={dark} setDark={setDark} userEmail={null} />
       <Sidebar collapsed={collapsed} setCollapsed={setCollapsed} active={active} />
@@ -749,23 +766,17 @@ function GalentPage() {
       >
         <div className="mx-auto px-5 sm:px-10 py-12" style={{ maxWidth: 960 }}>
           <div className="space-y-16">
-            <OverviewSection />
-            <hr className="border-border" />
-            <Matrix01Section />
-            <hr className="border-border" />
-            <Matrix02Section />
-            <hr className="border-border" />
-            <Matrix03Section />
-            <hr className="border-border" />
-            <Matrix04Section />
-            <hr className="border-border" />
-            <Matrix05Section />
-            <hr className="border-border" />
-            <Matrix06Section />
-            <hr className="border-border" />
-            <Matrix07Section />
+            {sectionEls.map((el, i) => (
+              <FragmentRow key={i}>
+                {i > 0 && <div className="accent-divider reveal" />}
+                <div className="reveal" style={{ transitionDelay: `${Math.min(i * 40, 200)}ms` }}>
+                  {el}
+                </div>
+              </FragmentRow>
+            ))}
           </div>
         </div>
+
 
         <footer className="border-t border-border mt-10">
           <div
